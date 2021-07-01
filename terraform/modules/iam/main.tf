@@ -1,4 +1,4 @@
-resource "aws_iam_role" "firehose_role" {
+resource "aws_iam_role" "diamonds_firehose_role" {
     name = "firehose-role"
 
     assume_role_policy = <<EOF

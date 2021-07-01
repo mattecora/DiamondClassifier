@@ -35,6 +35,10 @@ module "ec2" {
 
 module "kinesis" {
     source = "./modules/kinesis"
-    firehose_role_arn = module.iam.firehose_role_arn
-    firehose_bucket_arn = module.s3.firehose_bucket_arn
+    diamonds_firehose_role_arn = module.iam.diamonds_firehose_role_arn
+    diamonds_firehose_bucket_arn = module.s3.diamonds_firehose_bucket_arn
+}
+
+module "dynamodb" {
+    source = "./modules/dynamodb"
 }
