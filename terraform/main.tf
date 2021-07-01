@@ -21,6 +21,20 @@ provider "aws" {
     region  = "eu-west-1"
 }
 
+module "iam" {
+    source = "./modules/iam"
+}
+
+module "s3" {
+    source = "./modules/s3"
+}
+
 module "ec2" {
     source = "./modules/ec2"
+}
+
+module "kinesis" {
+    source = "./modules/kinesis"
+    firehose_role_arn = module.iam.firehose_role_arn
+    firehose_bucket_arn = module.s3.firehose_bucket_arn
 }
