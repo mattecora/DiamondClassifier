@@ -25,6 +25,12 @@ provider "aws" {
     region  = "eu-west-1"
 }
 
+module "apigateway" {
+    source = "./modules/apigateway"
+    diamonds_lambda_predict_invoke_arn = module.lambda.diamonds_lambda_predict_invoke_arn
+    diamonds_rest_api_predict_role_arn = module.iam.diamonds_rest_api_predict_role_arn
+}
+
 module "dynamodb" {
     source = "./modules/dynamodb"
 }
@@ -44,8 +50,9 @@ module "iam" {
     source = "./modules/iam"
     diamonds_data_stream_arn        = module.kinesis.diamonds_data_stream_arn
     diamonds_firehose_bucket_arn    = module.s3.diamonds_firehose_bucket_arn
-    diamonds_sagemaker_endpoint_arn = ""
+    diamonds_sagemaker_endpoint_arn = "*"
     diamonds_prediction_table_arn   = module.dynamodb.diamonds_prediction_table_arn
+    diamonds_lambda_predict_arn     = module.lambda.diamonds_lambda_predict_arn
 }
 
 module "lambda" {
@@ -61,4 +68,8 @@ module "kinesis" {
 
 module "s3" {
     source = "./modules/s3"
+}
+
+output "diamonds_rest_api_predict_base_url" {
+    value = module.apigateway.diamonds_rest_api_predict_base_url
 }

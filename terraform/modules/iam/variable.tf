@@ -13,3 +13,7 @@ variable "diamonds_sagemaker_endpoint_arn" {
 variable "diamonds_prediction_table_arn" {
     type = string
 }
+
+variable "diamonds_lambda_predict_arn" {
+    type = string
+}

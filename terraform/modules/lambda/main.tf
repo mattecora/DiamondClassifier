@@ -16,7 +16,7 @@ resource "aws_lambda_function" "diamonds_lambda_predict" {
     filename         = data.archive_file.diamonds_lambda_predict_bundle.output_path
     source_code_hash = data.archive_file.diamonds_lambda_predict_bundle.output_base64sha256
     runtime          = "python3.8"
-    handler          = "predict"
+    handler          = "main.predict"
 }
 
 resource "aws_lambda_function" "diamonds_lambda_consume" {
@@ -25,7 +25,7 @@ resource "aws_lambda_function" "diamonds_lambda_consume" {
     filename         = data.archive_file.diamonds_lambda_consume_bundle.output_path
     source_code_hash = data.archive_file.diamonds_lambda_consume_bundle.output_base64sha256
     runtime          = "python3.8"
-    handler          = "consume"
+    handler          = "main.consume"
 }
 
 resource "aws_lambda_event_source_mapping" "diamonds_lambda_consume_stream_mapping" {

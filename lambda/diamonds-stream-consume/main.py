@@ -30,8 +30,7 @@ def consume(event, context):
     # Perform a POST request on the prediction endpoint
     try:
         request = http.request("POST", api_gateway_endpoint, body=json.dumps(records), headers={
-            "Content-Type": "application/json",
-            "X-Api-Key": "xxx"
+            "Content-Type": "application/json"
         })
         predictions = json.loads(request.data)["predictions"]
         logger.info(f"Predicted classes:\n{predictions}")

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "diamonds_firehose_role" {
-    name = "firehose-role"
+    name = "diamonds-firehose-role"
 
     assume_role_policy = jsonencode({
         Version   = "2012-10-17"
@@ -15,7 +15,7 @@ resource "aws_iam_role" "diamonds_firehose_role" {
     })
 
     inline_policy {
-        name = "diamonds_firehose_role_policy"
+        name = "diamonds-firehose-policy"
         policy = jsonencode({
             Version   = "2012-10-17"
             Statement = [
@@ -47,7 +47,7 @@ resource "aws_iam_role" "diamonds_firehose_role" {
 }
 
 resource "aws_iam_role" "diamonds_lambda_predict_role" {
-    name = "lambda-predict-role"
+    name = "diamonds-lambda-predict-role"
 
     assume_role_policy = jsonencode({
         Version   = "2012-10-17"
@@ -63,10 +63,19 @@ resource "aws_iam_role" "diamonds_lambda_predict_role" {
     })
 
     inline_policy {
-        name = "diamonds_lambda_predict_role_policy"
+        name = "diamonds-lambda-predict-policy"
         policy = jsonencode({
             Version   = "2012-10-17"
             Statement = [
+                {
+                    Effect   = "Allow"
+                    Action   = [
+                        "logs:CreateLogGroup",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ]
+                    Resource = "*"
+                },
                 {      
                     Effect   = "Allow"     
                     Action   = "sagemaker:InvokeEndpoint"     
@@ -78,7 +87,7 @@ resource "aws_iam_role" "diamonds_lambda_predict_role" {
 }
 
 resource "aws_iam_role" "diamonds_lambda_consume_role" {
-    name = "lambda-consume-role"
+    name = "diamonds-lambda-consume-role"
 
     assume_role_policy = jsonencode({
         Version   = "2012-10-17"
@@ -94,10 +103,19 @@ resource "aws_iam_role" "diamonds_lambda_consume_role" {
     })
 
     inline_policy {
-        name = "diamonds_lambda_consume_policy"
+        name = "diamonds-lambda-consume-policy"
         policy = jsonencode({
             Version   = "2012-10-17"
-            Statement = [      
+            Statement = [
+                {
+                    Effect   = "Allow"
+                    Action   = [
+                        "logs:CreateLogGroup",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ]
+                    Resource = "*"
+                },
                 {
                     Effect   = "Allow"
                     Action   = [
@@ -118,6 +136,37 @@ resource "aws_iam_role" "diamonds_lambda_consume_role" {
                         "dynamodb:PutItem"
                     ]
                     Resource = var.diamonds_data_stream_arn
+                }
+            ]
+        })
+    }
+}
+
+resource "aws_iam_role" "diamonds_rest_api_predict_role" {
+    name = "diamonds-rest-api-role"
+
+    assume_role_policy = jsonencode({
+        Version   = "2012-10-17"
+        Statement = [   
+            {
+                Effect    = "Allow"
+                Action    = "sts:AssumeRole"
+                Principal = {
+                    Service = "apigateway.amazonaws.com"
+                }
+            }
+        ]
+    })
+
+    inline_policy {
+        name = "diamonds-rest-api-predict-policy"
+        policy = jsonencode({
+            Version   = "2012-10-17"
+            Statement = [
+                {
+                    Effect   = "Allow"
+                    Action   = "lambda:InvokeFunction"
+                    Resource = var.diamonds_lambda_predict_arn
                 }
             ]
         })
