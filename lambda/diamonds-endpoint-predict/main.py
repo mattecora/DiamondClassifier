@@ -6,9 +6,9 @@ logger = logging.getLogger()
 logger.setLevel("INFO")
 
 sagemaker = boto3.client("runtime.sagemaker")
-sagemaker_endpoint = "diamonds-predict-endpoint"
+sagemaker_endpoint = "diamonds-predictor-endpoint"
 
-columns = ["cut", "color", "clarity", "price", "x", "y", "z", "table"]
+columns = ["cut", "color", "clarity", "depth", "table", "price", "x", "y", "z"]
 
 def predict(event, context):
     logger.info(f"Input data:\n{event}")
@@ -48,9 +48,10 @@ def predict(event, context):
             "isBase64Encoded": False
         }
     
-    # Call the endpoint and get the prediction (TODO)
+    # Call the endpoint and get the prediction
     try:
-        predictions = [0] * len(json_data)
+        response = sagemaker.invoke_endpoint(EndpointName=sagemaker_endpoint, ContentType="text/csv", Accept="text/csv", Body=csv_data)
+        predictions = [int(x) for x in response['Body'].read().decode().split(",")]
         logger.info(f"Predicted classes:\n{predictions}")
     except:
         logger.error("Sagemaker invocation error.")

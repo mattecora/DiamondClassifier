@@ -17,6 +17,7 @@ resource "aws_lambda_function" "diamonds_lambda_predict" {
     source_code_hash = data.archive_file.diamonds_lambda_predict_bundle.output_base64sha256
     runtime          = "python3.8"
     handler          = "main.predict"
+    timeout          = 30
 }
 
 resource "aws_lambda_function" "diamonds_lambda_consume" {
@@ -26,6 +27,7 @@ resource "aws_lambda_function" "diamonds_lambda_consume" {
     source_code_hash = data.archive_file.diamonds_lambda_consume_bundle.output_base64sha256
     runtime          = "python3.8"
     handler          = "main.consume"
+    timeout          = 30
 }
 
 resource "aws_lambda_event_source_mapping" "diamonds_lambda_consume_stream_mapping" {

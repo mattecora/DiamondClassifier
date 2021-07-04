@@ -10,8 +10,9 @@ logger = logging.getLogger()
 logger.setLevel("INFO")
 
 http = urllib3.PoolManager()
-api_gateway = boto3.client("apigatewayv2")
-api_gateway_endpoint = api_gateway.get_api(ApiId="diamonds-prediction-api")["ApiEndpoint"] + "/test/predict-diamonds"
+api_gateway = boto3.client("apigateway")
+api_gateway_id = [api for api in api_gateway.get_rest_apis()["items"] if api["name"] == "diamonds-rest-api"][0]["id"]
+api_gateway_endpoint = f"https://{api_gateway_id}.execute-api.eu-west-1.amazonaws.com/test/predict-diamonds"
 
 dynamodb = boto3.client("dynamodb")
 dynamodb_table_name = "diamonds-predictions"
@@ -43,7 +44,7 @@ def consume(event, context):
         # Prepare the dict for DynamoDB
         dynamodb_records = [{**{
             "id": { "S": str(uuid.uuid4()) },
-            "timestamp": { "N": time.time() },
+            "timestamp": { "N": str(time.time()) },
             "label": { "N": str(prediction["label"]) }
         }, **{
             c: { "N": str(prediction["body"][c]) } for c in prediction["body"]

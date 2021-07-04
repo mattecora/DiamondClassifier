@@ -4,20 +4,21 @@ resource "aws_key_pair" "diamonds_data_producer_ssh_key" {
 }
 
 resource "aws_security_group" "diamonds_data_producer_security_group" {
-    name    = "diamonds-data-producer-security-group"
-    ingress = [
-        {
-            cidr_blocks      = [ "0.0.0.0/0" ]
-            description      = ""
-            from_port        = 22
-            ipv6_cidr_blocks = []
-            prefix_list_ids  = []
-            protocol         = "tcp"
-            security_groups  = []
-            self             = false
-            to_port          = 22
-        }
-    ]
+    name  = "diamonds-data-producer-security-group"
+
+    egress {
+        cidr_blocks = [ "0.0.0.0/0" ]
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+    }
+    
+    ingress {
+        cidr_blocks = [ "0.0.0.0/0" ]
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+    }
 }
 
 resource "aws_instance" "diamonds_data_producer" {
@@ -25,6 +26,7 @@ resource "aws_instance" "diamonds_data_producer" {
     instance_type          = "t2.micro"
     key_name               = aws_key_pair.diamonds_data_producer_ssh_key.key_name
     vpc_security_group_ids = [ aws_security_group.diamonds_data_producer_security_group.id ]
+    iam_instance_profile   = var.diamonds_data_producer_profile_name
 
     tags = {
         Name = "diamonds-data-producer"

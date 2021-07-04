@@ -37,6 +37,7 @@ module "dynamodb" {
 
 module "ec2" {
     source = "./modules/ec2"
+    diamonds_data_producer_profile_name = module.iam.diamonds_data_producer_profile_name
 }
 
 module "firehose" {
@@ -50,9 +51,10 @@ module "iam" {
     source = "./modules/iam"
     diamonds_data_stream_arn        = module.kinesis.diamonds_data_stream_arn
     diamonds_firehose_bucket_arn    = module.s3.diamonds_firehose_bucket_arn
-    diamonds_sagemaker_endpoint_arn = "*"
+    diamonds_predictor_endpoint_arn = module.sagemaker.diamonds_predictor_endpoint_arn
     diamonds_prediction_table_arn   = module.dynamodb.diamonds_prediction_table_arn
     diamonds_lambda_predict_arn     = module.lambda.diamonds_lambda_predict_arn
+    diamonds_rest_api_arn           = module.apigateway.diamonds_rest_api_arn
 }
 
 module "lambda" {
@@ -68,6 +70,10 @@ module "kinesis" {
 
 module "s3" {
     source = "./modules/s3"
+}
+
+module "sagemaker" {
+    source = "./modules/sagemaker"
 }
 
 output "diamonds_data_producer_ip_address" {
