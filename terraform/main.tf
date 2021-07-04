@@ -70,6 +70,10 @@ module "s3" {
     source = "./modules/s3"
 }
 
+output "diamonds_data_producer_ip_address" {
+    value = module.ec2.diamonds_data_producer_ip_address
+}
+
 output "diamonds_rest_api_predict_base_url" {
     value = module.apigateway.diamonds_rest_api_predict_base_url
 }
