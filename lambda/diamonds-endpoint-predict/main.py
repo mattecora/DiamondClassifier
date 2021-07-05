@@ -20,7 +20,9 @@ def predict(event, context):
         logger.error("Invalid input format.")
         return {
             "statusCode": 400,
-            "headers": {},
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({
                 "request_id": context.aws_request_id,
                 "request_body": event["body"],
@@ -39,7 +41,9 @@ def predict(event, context):
         logger.error("Malformed input data.")
         return {
             "statusCode": 400,
-            "headers": {},
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({
                 "request_id": context.aws_request_id,
                 "request_body": json_data,
@@ -57,7 +61,9 @@ def predict(event, context):
         logger.error("Sagemaker invocation error.")
         return {
             "statusCode": 500,
-            "headers": {},
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({
                 "request_id": context.aws_request_id,
                 "request_body": json_data,
@@ -69,7 +75,9 @@ def predict(event, context):
     # Return the prediction
     return {
         "statusCode": 200,
-        "headers": {},
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        },
         "body": json.dumps({
             "request_id": context.aws_request_id,
             "predictions": [
