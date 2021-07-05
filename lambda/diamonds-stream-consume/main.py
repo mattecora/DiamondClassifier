@@ -5,6 +5,7 @@ import urllib3
 import uuid
 import time
 import base64
+import math
 
 logger = logging.getLogger()
 logger.setLevel("INFO")
@@ -47,7 +48,7 @@ def consume(event, context):
             "timestamp": { "N": str(time.time()) },
             "label": { "N": str(prediction["label"]) }
         }, **{
-            c: { "N": str(prediction["body"][c]) } for c in prediction["body"]
+            c: { "N": str(prediction["body"][c]) } for c in prediction["body"] if not math.isnan(predictions["body"][c])
         }} for prediction in predictions]
             
         # Put the item in DynamoDB

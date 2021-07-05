@@ -17,7 +17,7 @@ s3_file_path = "preprocess/prep_test.csv"
 
 # Read test data from S3
 test_object = s3.get_object(Bucket=s3_bucket_name, Key=s3_file_path)
-test_data = pd.read_csv(test_object.get("Body"))
+test_data = pd.read_csv(test_object.get("Body")).drop("carat_class", axis=1)
 
 while True:
     # Sample five records from the dataframe
