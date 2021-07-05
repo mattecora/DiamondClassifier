@@ -38,5 +38,5 @@ while True:
     total += n
     print(f"{datetime.now().isoformat()} - Records written: {n} - Total: {total}")
 
-    # Sleep for five seconds
-    sleep(5)
+    # Sleep for five minutes
+    sleep(300)

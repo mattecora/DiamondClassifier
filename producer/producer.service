@@ -1,0 +1,14 @@
+[Unit]
+Description=Data producer service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nohup python3 /etc/producer/produce.py
+Restart=always
+RestartSec=30
+StandardOutput=/var/log/producer.log
+StandardError=/var/log/producer_err.log
+SyslogIdentifier=PRODUCER
+
+[Install]
+WantedBy=multi-user.target
