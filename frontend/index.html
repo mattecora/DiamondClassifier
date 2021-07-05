@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamonds classification</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Diamonds classification</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Cut</h5>
+                        The quality of the cut, from Fair to Ideal.
+                    </div>
+                    <div class="row card-body">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="input-cut" id="input-cut-fair" value="0" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-cut-fair">Fair</label>
+                            <input type="radio" class="btn-check" name="input-cut" id="input-cut-good" value="1" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-cut-good">Good</label>
+                            <input type="radio" class="btn-check" name="input-cut" id="input-cut-very-good" value="2" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="input-cut-very-good">Very good</label>
+                            <input type="radio" class="btn-check" name="input-cut" id="input-cut-premium" value="3" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-cut-premium">Premium</label>
+                            <input type="radio" class="btn-check" name="input-cut" id="input-cut-ideal" value="4" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-cut-ideal">Ideal</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Color</h5>
+                        The color of the diamond, from J to D.
+                    </div>
+                    <div class="row card-body">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-j" value="0" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-color-j">J</label>
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-i" value="1" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-color-i">I</label>
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-h" value="2" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-color-h">H</label>
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-g" value="3" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="input-color-g">G</label>
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-f" value="4" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-color-f">F</label>
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-e" value="5" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-color-e">E</label>
+                            <input type="radio" class="btn-check" name="input-color" id="input-color-d" value="6" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-color-d">D</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Clarity</h5>
+                        A measurement of how clear the diamond is, from I1 to IF.
+                    </div>
+                    <div class="row card-body">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-i1" value="0" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-i1">I1</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-si2" value="1" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-si2">SI2</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-si1" value="2" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-si1">SI1</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-vs2" value="3" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="input-clarity-vs2">VS2</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-vs1" value="4" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-vs1">VS1</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-vvs2" value="5" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-vvs2">VVS2</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-vvs1" value="6" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-vvs1">VVS1</label>
+                            <input type="radio" class="btn-check" name="input-clarity" id="input-clarity-if" value="7" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="input-clarity-if">IF</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Price</h5>
+                        The price of the diamond, in US dollars.
+                    </div>
+                    <div class="row card-body">
+                        <input type="range" class="form-range" id="input-price" min="300" max="19000" step="1" oninput="updateSliderLabel('input-price', 'input-price-val', '$')">
+                        <span id="input-price-val" class="text-center"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">X</h5>
+                        The length of the diamond, in mm.
+                    </div>
+                    <div class="row card-body">
+                        <input type="range" class="form-range" id="input-x" min="0" max="12" step="0.05" oninput="updateSliderLabel('input-x', 'input-x-val', 'mm')">
+                        <span id="input-x-val" class="text-center"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Y</h5>
+                        The width of the diamond, in mm.
+                    </div>
+                    <div class="row card-body">
+                        <input type="range" class="form-range" id="input-y" min="0" max="12" step="0.05" oninput="updateSliderLabel('input-y', 'input-y-val', 'mm')">
+                        <span id="input-y-val" class="text-center"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Z</h5>
+                        The depth of the diamond, in mm.
+                    </div>
+                    <div class="row card-body">
+                        <input type="range" class="form-range" id="input-z" min="0" max="32" step="0.05" oninput="updateSliderLabel('input-z', 'input-z-val', 'mm')">
+                        <span id="input-z-val" class="text-center"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Depth</h5>
+                        The total depth percentage, measured as z / mean(x, y).
+                    </div>
+                    <div class="row card-body">
+                        <input type="range" class="form-range" id="input-depth" min="0" max="100" step="0.05" oninput="updateSliderLabel('input-depth', 'input-depth-val', '%')">
+                        <span id="input-depth-val" class="text-center"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Table</h5>
+                        The width of top of diamond relative to widest point.
+                    </div>
+                    <div class="row card-body">
+                        <input type="range" class="form-range" id="input-table" min="0" max="100" step="0.05" oninput="updateSliderLabel('input-table', 'input-table-val', '%')">
+                        <span id="input-table-val" class="text-center"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <button class="btn btn-primary" style="width: 100%;" onclick="predict()">Predict</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-overlay">
+        <div class="alert alert-primary" id="prediction-loading">
+            <div class="spinner-border text-primary">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="alert alert-success text-center" id="prediction-result" style="display: none;">
+            <div id="prediction-result-content"></div>
+            <button type="button" class="btn-close" onclick="closeOverlay()"></button>
+        </div>
+        <div class="alert alert-danger text-center" id="prediction-error" style="display: none;">
+            <div id="prediction-error-content"></div>
+            <button type="button" class="btn-close" onclick="closeOverlay()"></button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

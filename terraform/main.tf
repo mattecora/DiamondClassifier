@@ -70,6 +70,7 @@ module "kinesis" {
 
 module "s3" {
     source = "./modules/s3"
+    diamonds_rest_api_predict_base_url = module.apigateway.diamonds_rest_api_predict_base_url
 }
 
 module "sagemaker" {
@@ -82,4 +83,8 @@ output "diamonds_data_producer_ip_address" {
 
 output "diamonds_rest_api_predict_base_url" {
     value = module.apigateway.diamonds_rest_api_predict_base_url
+}
+
+output "diamonds_frontend_bucket_endpoint" {
+    value = module.s3.diamonds_frontend_bucket_endpoint
 }

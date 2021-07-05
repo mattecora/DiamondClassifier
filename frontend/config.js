@@ -1,0 +1,1 @@
+const predictUrl = "${base_url}/predict-diamonds";
