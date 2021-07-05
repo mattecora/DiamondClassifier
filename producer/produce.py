@@ -8,7 +8,7 @@ from datetime import datetime
 n = 5
 total = 0
 
-kinesis = boto3.client("kinesis")
+kinesis = boto3.client("kinesis", region_name="eu-west-1")
 kinesis_stream_name = "diamonds-data-stream"
 
 s3 = boto3.client("s3")

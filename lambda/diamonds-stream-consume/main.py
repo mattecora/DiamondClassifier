@@ -48,7 +48,7 @@ def consume(event, context):
             "timestamp": { "N": str(time.time()) },
             "label": { "N": str(prediction["label"]) }
         }, **{
-            c: { "N": str(prediction["body"][c]) } for c in prediction["body"] if not math.isnan(predictions["body"][c])
+            c: { "N": str(prediction["body"][c]) } for c in prediction["body"] if not math.isnan(prediction["body"][c])
         }} for prediction in predictions]
             
         # Put the item in DynamoDB
