@@ -43,7 +43,10 @@ resource "aws_iam_role" "diamonds_firehose_role" {
                         "s3:ListBucketMultipartUploads",
                         "s3:PutObject"
                     ],
-                    Resource = var.diamonds_firehose_bucket_arn
+                    Resource = [
+                        var.diamonds_firehose_bucket_arn,
+                        "${var.diamonds_firehose_bucket_arn}/*"
+                    ]
                 }
             ]
         })
