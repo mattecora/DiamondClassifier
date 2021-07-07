@@ -38,11 +38,14 @@ resource "aws_lambda_function" "diamonds_lambda_predict" {
     timeout          = 30
 }
 
+# diamonds_lambda_predict_permission
+# The permission to allow API gateway to call diamonds-endpoint-predict.
+
 resource "aws_lambda_permission" "diamonds_lambda_predict_permission" {
     action        = "lambda:InvokeFunction"
     function_name = aws_lambda_function.diamonds_lambda_predict.function_name
     principal     = "apigateway.amazonaws.com"
-    source_arn    = "${var.diamonds_rest_api_execution_arn}/*/*"
+    source_arn    = "${var.diamonds_rest_api_execution_arn}/*/*/*"
 }
 
 # diamonds_lambda_batch
