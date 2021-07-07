@@ -2,16 +2,18 @@
 # S3 bucket for storing unprocessed data from the Firehose delivery stream.
 
 resource "aws_s3_bucket" "diamonds_firehose_bucket" {
-    bucket = "aws-project-politomaster-firehose"
-    acl    = "private"
+    bucket        = "aws-project-politomaster-firehose"
+    acl           = "private"
+    force_destroy = true
 }
 
 # diamonds_frontend_bucket
 # S3 bucket for serving the frontend's static files to the user's browser.
 
 resource "aws_s3_bucket" "diamonds_frontend_bucket" {
-    bucket = "aws-project-politomaster-frontend-bucket"
-    acl    = "public-read"
+    bucket        = "aws-project-politomaster-frontend-bucket"
+    acl           = "public-read"
+    force_destroy = true
 
     website {
         index_document = "index.html"
