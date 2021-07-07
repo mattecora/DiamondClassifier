@@ -214,41 +214,6 @@ resource "aws_iam_role" "diamonds_lambda_consume_role" {
     }
 }
 
-# diamonds_rest_api_predict_role
-# The IAM execution role for the REST API.
-# It allows invoking the diamonds-endpoint-predict Lambda function.
-
-resource "aws_iam_role" "diamonds_rest_api_predict_role" {
-    name = "diamonds-rest-api-role"
-
-    assume_role_policy = jsonencode({
-        Version   = "2012-10-17"
-        Statement = [   
-            {
-                Effect    = "Allow"
-                Action    = "sts:AssumeRole"
-                Principal = {
-                    Service = "apigateway.amazonaws.com"
-                }
-            }
-        ]
-    })
-
-    inline_policy {
-        name = "diamonds-rest-api-predict-policy"
-        policy = jsonencode({
-            Version   = "2012-10-17"
-            Statement = [
-                {
-                    Effect   = "Allow"
-                    Action   = "lambda:InvokeFunction"
-                    Resource = var.diamonds_lambda_predict_arn
-                }
-            ]
-        })
-    }
-}
-
 # diamonds_data_producer_role
 # The IAM execution role for the data producer instance.
 # It allows reading test data from S3 and writing to the Kinesis stream.

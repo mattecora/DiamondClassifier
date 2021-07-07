@@ -19,6 +19,13 @@ variable "diamonds_lambda_consume_role_arn" {
     type = string
 }
 
+# diamonds_rest_api_execution_arn
+# The ARN of the deployed REST API.
+
+variable "diamonds_rest_api_execution_arn" {
+    type = string
+}
+
 # diamonds_batch_bucket_arn
 # The ARN of the batch prediction bucket.
 

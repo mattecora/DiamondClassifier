@@ -36,7 +36,6 @@ provider "aws" {
 module "apigateway" {
     source = "./modules/apigateway"
     diamonds_lambda_predict_invoke_arn = module.lambda.diamonds_lambda_predict_invoke_arn
-    diamonds_rest_api_predict_role_arn = module.iam.diamonds_rest_api_predict_role_arn
 }
 
 module "dynamodb" {
@@ -61,8 +60,6 @@ module "iam" {
     diamonds_firehose_bucket_arn    = module.s3.diamonds_firehose_bucket_arn
     diamonds_predictor_endpoint_arn = module.sagemaker.diamonds_predictor_endpoint_arn
     diamonds_predictions_table_arn  = module.dynamodb.diamonds_predictions_table_arn
-    diamonds_lambda_predict_arn     = module.lambda.diamonds_lambda_predict_arn
-    diamonds_rest_api_arn           = module.apigateway.diamonds_rest_api_arn
     diamonds_batch_bucket_arn       = module.s3.diamonds_batch_bucket_arn
 }
 
@@ -71,6 +68,7 @@ module "lambda" {
     diamonds_lambda_predict_role_arn = module.iam.diamonds_lambda_predict_role_arn
     diamonds_lambda_batch_role_arn   = module.iam.diamonds_lambda_batch_role_arn
     diamonds_lambda_consume_role_arn = module.iam.diamonds_lambda_consume_role_arn
+    diamonds_rest_api_execution_arn  = module.apigateway.diamonds_rest_api_execution_arn
     diamonds_batch_bucket_arn        = module.s3.diamonds_batch_bucket_arn
     diamonds_data_stream_arn         = module.kinesis.diamonds_data_stream_arn
 }

@@ -26,20 +26,6 @@ variable "diamonds_predictions_table_arn" {
     type = string
 }
 
-# diamonds_lambda_predict_arn
-# The ARN of the diamonds-endpoint-predict function.
-
-variable "diamonds_lambda_predict_arn" {
-    type = string
-}
-
-# diamonds_rest_api_arn
-# The ARN of the deployed REST API.
-
-variable "diamonds_rest_api_arn" {
-    type = string
-}
-
 # diamonds_batch_bucket_arn
 # The ARN of the batch prediction bucket.
 

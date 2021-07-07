@@ -34,7 +34,6 @@ resource "aws_api_gateway_integration" "diamonds_rest_api_predict_post_integrati
     integration_http_method = "POST"
     type                    = "AWS_PROXY"
     uri                     = var.diamonds_lambda_predict_invoke_arn
-    credentials             = var.diamonds_rest_api_predict_role_arn
 }
 
 # diamonds_rest_api_predict_options_method

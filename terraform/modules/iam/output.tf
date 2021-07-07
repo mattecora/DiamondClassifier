@@ -26,13 +26,6 @@ output "diamonds_lambda_consume_role_arn" {
     value = aws_iam_role.diamonds_lambda_consume_role.arn
 }
 
-# diamonds_rest_api_predict_role_arn
-# The ARN of the IAM execution role for the REST API.
-
-output "diamonds_rest_api_predict_role_arn" {
-    value = aws_iam_role.diamonds_rest_api_predict_role.arn
-}
-
 # diamonds_data_producer_profile_name
 # The name of the IAM profile for the data producer instance.
 

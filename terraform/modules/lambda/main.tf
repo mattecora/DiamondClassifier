@@ -38,6 +38,13 @@ resource "aws_lambda_function" "diamonds_lambda_predict" {
     timeout          = 30
 }
 
+resource "aws_lambda_permission" "diamonds_lambda_predict_permission" {
+    action        = "lambda:InvokeFunction"
+    function_name = aws_lambda_function.diamonds_lambda_predict.function_name
+    principal     = "apigateway.amazonaws.com"
+    source_arn    = "${var.diamonds_rest_api_execution_arn}/*/*"
+}
+
 # diamonds_lambda_batch
 # The diamonds-batch-predict Lambda function.
 
@@ -54,9 +61,9 @@ resource "aws_lambda_function" "diamonds_lambda_batch" {
 # diamonds_lambda_batch_permissions
 # The permission to allow S3 to call diamonds-batch-predict.
 
-resource "aws_lambda_permission" "diamonds_lambda_batch_permissions" {
+resource "aws_lambda_permission" "diamonds_lambda_batch_permission" {
     action        = "lambda:InvokeFunction"
-    function_name = aws_lambda_function.diamonds_lambda_batch.arn
+    function_name = aws_lambda_function.diamonds_lambda_batch.function_name
     principal     = "s3.amazonaws.com"
     source_arn    = var.diamonds_batch_bucket_arn
 }
