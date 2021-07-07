@@ -58,7 +58,7 @@ def predict(event, context):
         predictions = [int(x) for x in response['Body'].read().decode().split(",")]
         logger.info(f"Predicted classes:\n{predictions}")
     except:
-        logger.error("Sagemaker invocation error.")
+        logger.error(f"Sagemaker invocation error.")
         return {
             "statusCode": 500,
             "headers": {

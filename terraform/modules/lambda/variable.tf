@@ -5,10 +5,24 @@ variable "diamonds_lambda_predict_role_arn" {
     type = string
 }
 
+# diamonds_lambda_batch_role_arn
+# The ARN of the IAM execution role for the diamonds-batch-predict function.
+
+variable "diamonds_lambda_batch_role_arn" {
+    type = string
+}
+
 # diamonds_lambda_consume_role_arn
 # The ARN of the IAM execution role for the diamonds-stream-consume function.
 
 variable "diamonds_lambda_consume_role_arn" {
+    type = string
+}
+
+# diamonds_batch_bucket_arn
+# The ARN of the batch prediction bucket.
+
+variable "diamonds_batch_bucket_arn" {
     type = string
 }
 

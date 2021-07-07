@@ -7,11 +7,34 @@ resource "aws_s3_bucket" "diamonds_firehose_bucket" {
     force_destroy = true
 }
 
+# diamonds_batch_bucket
+# S3 bucket for performing batch predictions.
+
+resource "aws_s3_bucket" "diamonds_batch_bucket" {
+    bucket        = "aws-project-politomaster-batch"
+    acl           = "private"
+    force_destroy = true
+}
+
+# diamonds_batch_bucket_notification
+# Notification for the diamonds-batch-predict function that a file was uploaded to the bucket.
+
+resource "aws_s3_bucket_notification" "diamonds_batch_bucket_notification" {
+    bucket = aws_s3_bucket.diamonds_batch_bucket.id
+
+    lambda_function {
+        lambda_function_arn = var.diamonds_lambda_batch_arn
+        events              = [ "s3:ObjectCreated:*" ]
+        filter_prefix       = "input/"
+        filter_suffix       = ".csv"
+    }
+}
+
 # diamonds_frontend_bucket
 # S3 bucket for serving the frontend's static files to the user's browser.
 
 resource "aws_s3_bucket" "diamonds_frontend_bucket" {
-    bucket        = "aws-project-politomaster-frontend-bucket"
+    bucket        = "aws-project-politomaster-frontend"
     acl           = "public-read"
     force_destroy = true
 

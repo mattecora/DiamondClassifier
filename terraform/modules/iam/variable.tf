@@ -39,3 +39,10 @@ variable "diamonds_lambda_predict_arn" {
 variable "diamonds_rest_api_arn" {
     type = string
 }
+
+# diamonds_batch_bucket_arn
+# The ARN of the batch prediction bucket.
+
+variable "diamonds_batch_bucket_arn" {
+    type = string
+}

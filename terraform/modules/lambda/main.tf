@@ -7,6 +7,15 @@ data "archive_file" "diamonds_lambda_predict_bundle" {
     output_path = "${path.module}/../../../lambda/diamonds-endpoint-predict.zip"
 }
 
+# diamonds_lambda_batch_bundle
+# The ZIP bundle of the diamonds-batch-predict function.
+
+data "archive_file" "diamonds_lambda_batch_bundle" {
+    type        = "zip"
+    source_dir  = "${path.module}/../../../lambda/diamonds-batch-predict/"
+    output_path = "${path.module}/../../../lambda/diamonds-batch-predict.zip"
+}
+
 # diamonds_lambda_consume_bundle
 # The ZIP bundle of the diamonds-stream-consume function.
 
@@ -27,6 +36,29 @@ resource "aws_lambda_function" "diamonds_lambda_predict" {
     runtime          = "python3.8"
     handler          = "main.predict"
     timeout          = 30
+}
+
+# diamonds_lambda_batch
+# The diamonds-batch-predict Lambda function.
+
+resource "aws_lambda_function" "diamonds_lambda_batch" {
+    function_name    = "diamonds-batch-predict"
+    role             = var.diamonds_lambda_batch_role_arn
+    filename         = data.archive_file.diamonds_lambda_batch_bundle.output_path
+    source_code_hash = data.archive_file.diamonds_lambda_batch_bundle.output_base64sha256
+    runtime          = "python3.8"
+    handler          = "main.predict"
+    timeout          = 30
+}
+
+# diamonds_lambda_batch_permissions
+# The permission to allow S3 to call diamonds-batch-predict.
+
+resource "aws_lambda_permission" "diamonds_lambda_batch_permissions" {
+    action        = "lambda:InvokeFunction"
+    function_name = aws_lambda_function.diamonds_lambda_batch.arn
+    principal     = "s3.amazonaws.com"
+    source_arn    = var.diamonds_batch_bucket_arn
 }
 
 # diamonds_lambda_consume

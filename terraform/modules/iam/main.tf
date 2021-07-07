@@ -97,6 +97,58 @@ resource "aws_iam_role" "diamonds_lambda_predict_role" {
     }
 }
 
+# diamonds_lambda_batch_role
+# The IAM execution role for the diamonds-batch-predict Lambda function.
+# It allows creating CloudWatch logs, reading/writing from/to S3 and invoking the Sagemaker endpoint.
+
+resource "aws_iam_role" "diamonds_lambda_batch_role" {
+    name = "diamonds-lambda-batch-role"
+
+    assume_role_policy = jsonencode({
+        Version   = "2012-10-17"
+        Statement = [   
+            {
+                Effect    = "Allow"
+                Action    = "sts:AssumeRole"
+                Principal = {
+                    Service = "lambda.amazonaws.com"
+                }
+            }
+        ]
+    })
+
+    inline_policy {
+        name = "diamonds-lambda-predict-policy"
+        policy = jsonencode({
+            Version   = "2012-10-17"
+            Statement = [
+                {
+                    Effect   = "Allow"
+                    Action   = [
+                        "logs:CreateLogGroup",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ]
+                    Resource = "*"
+                },
+                {
+                    Effect   = "Allow"
+                    Action   = [
+                        "s3:GetObject",
+                        "s3:PutObject"
+                    ]
+                    Resource = "${var.diamonds_batch_bucket_arn}/*"
+                },
+                {      
+                    Effect   = "Allow"     
+                    Action   = "sagemaker:InvokeEndpoint"     
+                    Resource = var.diamonds_predictor_endpoint_arn
+                }
+            ]
+        })
+    }
+}
+
 # diamonds_lambda_consume_role
 # The IAM execution role for the diamonds-stream-consume Lambda function.
 # It allows creating CloudWatch logs, reading from the Kinesis stream, accessing the API gateway, and writing to the DynamoDB predictions table.

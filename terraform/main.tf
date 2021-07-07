@@ -63,12 +63,15 @@ module "iam" {
     diamonds_predictions_table_arn  = module.dynamodb.diamonds_predictions_table_arn
     diamonds_lambda_predict_arn     = module.lambda.diamonds_lambda_predict_arn
     diamonds_rest_api_arn           = module.apigateway.diamonds_rest_api_arn
+    diamonds_batch_bucket_arn       = module.s3.diamonds_batch_bucket_arn
 }
 
 module "lambda" {
     source = "./modules/lambda"
     diamonds_lambda_predict_role_arn = module.iam.diamonds_lambda_predict_role_arn
+    diamonds_lambda_batch_role_arn   = module.iam.diamonds_lambda_batch_role_arn
     diamonds_lambda_consume_role_arn = module.iam.diamonds_lambda_consume_role_arn
+    diamonds_batch_bucket_arn        = module.s3.diamonds_batch_bucket_arn
     diamonds_data_stream_arn         = module.kinesis.diamonds_data_stream_arn
 }
 
@@ -79,6 +82,7 @@ module "kinesis" {
 module "s3" {
     source = "./modules/s3"
     diamonds_rest_api_predict_base_url = module.apigateway.diamonds_rest_api_predict_base_url
+    diamonds_lambda_batch_arn          = module.lambda.diamonds_lambda_batch_arn
 }
 
 module "sagemaker" {
