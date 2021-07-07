@@ -24,10 +24,14 @@ terraform {
     }
 }
 
+# PROVIDERS CONFIGURATION
+
 provider "aws" {
     profile = "aws-project-master"
     region  = "eu-west-1"
 }
+
+# MODULE IMPORTS
 
 module "apigateway" {
     source = "./modules/apigateway"
@@ -56,7 +60,7 @@ module "iam" {
     diamonds_data_stream_arn        = module.kinesis.diamonds_data_stream_arn
     diamonds_firehose_bucket_arn    = module.s3.diamonds_firehose_bucket_arn
     diamonds_predictor_endpoint_arn = module.sagemaker.diamonds_predictor_endpoint_arn
-    diamonds_prediction_table_arn   = module.dynamodb.diamonds_prediction_table_arn
+    diamonds_predictions_table_arn  = module.dynamodb.diamonds_predictions_table_arn
     diamonds_lambda_predict_arn     = module.lambda.diamonds_lambda_predict_arn
     diamonds_rest_api_arn           = module.apigateway.diamonds_rest_api_arn
 }
@@ -81,14 +85,16 @@ module "sagemaker" {
     source = "./modules/sagemaker"
 }
 
+# GLOBAL OUTPUTS
+
 output "diamonds_data_producer_ip_address" {
     value = module.ec2.diamonds_data_producer_ip_address
 }
 
-output "diamonds_rest_api_predict_base_url" {
-    value = module.apigateway.diamonds_rest_api_predict_base_url
-}
-
 output "diamonds_frontend_bucket_endpoint" {
     value = module.s3.diamonds_frontend_bucket_endpoint
+}
+
+output "diamonds_rest_api_predict_base_url" {
+    value = module.apigateway.diamonds_rest_api_predict_base_url
 }

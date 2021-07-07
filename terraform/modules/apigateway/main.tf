@@ -1,6 +1,12 @@
+# diamonds_rest_api
+# The REST API.
+
 resource "aws_api_gateway_rest_api" "diamonds_rest_api" {
     name = "diamonds-rest-api"
 }
+
+# diamonds_rest_api_predict_resource
+# The /predict-diamonds resource.
 
 resource "aws_api_gateway_resource" "diamonds_rest_api_predict_resource" {
     rest_api_id = aws_api_gateway_rest_api.diamonds_rest_api.id
@@ -8,12 +14,18 @@ resource "aws_api_gateway_resource" "diamonds_rest_api_predict_resource" {
     path_part   = "predict-diamonds"
 }
 
+# diamonds_rest_api_predict_post_method
+# The POST method request for the /predict-diamonds resource.
+
 resource "aws_api_gateway_method" "diamonds_rest_api_predict_post_method" {
     rest_api_id   = aws_api_gateway_rest_api.diamonds_rest_api.id
     resource_id   = aws_api_gateway_resource.diamonds_rest_api_predict_resource.id
     http_method   = "POST"
     authorization = "NONE"
 }
+
+# diamonds_rest_api_predict_post_integration
+# The integration request for the POST /predict-diamonds resource.
 
 resource "aws_api_gateway_integration" "diamonds_rest_api_predict_post_integration" {
     rest_api_id             = aws_api_gateway_rest_api.diamonds_rest_api.id
@@ -25,12 +37,18 @@ resource "aws_api_gateway_integration" "diamonds_rest_api_predict_post_integrati
     credentials             = var.diamonds_rest_api_predict_role_arn
 }
 
+# diamonds_rest_api_predict_options_method
+# The OPTIONS method request for the /predict-diamonds resource.
+
 resource "aws_api_gateway_method" "diamonds_rest_api_predict_options_method" {
     rest_api_id   = aws_api_gateway_rest_api.diamonds_rest_api.id
     resource_id   = aws_api_gateway_resource.diamonds_rest_api_predict_resource.id
     http_method   = "OPTIONS"
     authorization = "NONE"
 }
+
+# diamonds_rest_api_predict_options_method_response
+# The method response for the OPTIONS /predict-diamonds resource.
 
 resource "aws_api_gateway_method_response" "diamonds_rest_api_predict_options_method_response" {
     rest_api_id   = aws_api_gateway_rest_api.diamonds_rest_api.id
@@ -49,6 +67,9 @@ resource "aws_api_gateway_method_response" "diamonds_rest_api_predict_options_me
     }
 }
 
+# diamonds_rest_api_predict_options_integration
+# The integration request for the OPTIONS /predict-diamonds resource.
+
 resource "aws_api_gateway_integration" "diamonds_rest_api_predict_options_integration" {
     rest_api_id = aws_api_gateway_rest_api.diamonds_rest_api.id
     resource_id = aws_api_gateway_resource.diamonds_rest_api_predict_resource.id
@@ -59,6 +80,9 @@ resource "aws_api_gateway_integration" "diamonds_rest_api_predict_options_integr
         "application/json" = jsonencode({ statusCode = 200 })
     }
 }
+
+# diamonds_rest_api_predict_options_integration_response
+# The integration response for the OPTIONS /predict-diamonds resource.
 
 resource "aws_api_gateway_integration_response" "diamonds_rest_api_predict_options_integration_response" {
     rest_api_id   = aws_api_gateway_rest_api.diamonds_rest_api.id
@@ -77,6 +101,9 @@ resource "aws_api_gateway_integration_response" "diamonds_rest_api_predict_optio
     ]
 }
 
+# diamonds_rest_api_predict_deployment
+# The deployment of the REST API.
+
 resource "aws_api_gateway_deployment" "diamonds_rest_api_predict_deployment" {
     rest_api_id = aws_api_gateway_rest_api.diamonds_rest_api.id
     depends_on  = [
@@ -88,6 +115,9 @@ resource "aws_api_gateway_deployment" "diamonds_rest_api_predict_deployment" {
         aws_api_gateway_integration_response.diamonds_rest_api_predict_options_integration_response
     ]
 }
+
+# diamonds_rest_api_predict_stage
+# The test deployment stage for the REST API.
 
 resource "aws_api_gateway_stage" "diamonds_rest_api_predict_stage" {
     deployment_id = aws_api_gateway_deployment.diamonds_rest_api_predict_deployment.id

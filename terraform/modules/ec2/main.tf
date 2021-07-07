@@ -1,3 +1,6 @@
+# diamonds_data_producer_user_data
+# The cloud-init configuration for the data producer instance.
+
 data "cloudinit_config" "diamonds_data_producer_user_data" {
     gzip = false
     base64_encode = false
@@ -30,10 +33,16 @@ data "cloudinit_config" "diamonds_data_producer_user_data" {
     }
 }
 
+# diamonds_data_producer_ssh_key
+# The RSA key pair for the data producer instance.
+
 resource "aws_key_pair" "diamonds_data_producer_ssh_key" {
     key_name   = "diamonds-data-producer-ssh-key"
     public_key = file("${path.module}/../../../producer/diamonds_data_producer_ssh_key.pub")
 }
+
+# diamonds_data_producer_security_group
+# The security group for the data producer instance.
 
 resource "aws_security_group" "diamonds_data_producer_security_group" {
     name  = "diamonds-data-producer-security-group"
@@ -52,6 +61,9 @@ resource "aws_security_group" "diamonds_data_producer_security_group" {
         protocol    = "tcp"
     }
 }
+
+# diamonds_data_producer
+# The data producer EC2 instance.
 
 resource "aws_instance" "diamonds_data_producer" {
     ami                    = "ami-0f89681a05a3a9de7"

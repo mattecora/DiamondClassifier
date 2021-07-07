@@ -1,5 +1,8 @@
-resource "aws_kinesis_firehose_delivery_stream" "diamonds_firehose_stream" {
-    name        = "diamonds-firehose-stream"
+# diamonds_data_firehose
+# The Firehose delivery stream.
+
+resource "aws_kinesis_firehose_delivery_stream" "diamonds_data_firehose" {
+    name        = "diamonds-data-firehose"
     destination = "s3"
 
     kinesis_source_configuration {

@@ -1,3 +1,7 @@
+# diamonds_firehose_role
+# The IAM execution role for the Firehose delivery stream.
+# It allows reading from the Kinesis stream and writing to the S3 bucket.
+
 resource "aws_iam_role" "diamonds_firehose_role" {
     name = "diamonds-firehose-role"
 
@@ -19,6 +23,16 @@ resource "aws_iam_role" "diamonds_firehose_role" {
         policy = jsonencode({
             Version   = "2012-10-17"
             Statement = [
+                {
+                    Effect   = "Allow"
+                    Action   = [
+                        "kinesis:DescribeStream",
+                        "kinesis:GetShardIterator",
+                        "kinesis:GetRecords",
+                        "kinesis:ListShards"
+                    ],
+                    Resource = var.diamonds_data_stream_arn
+                },
                 {      
                     Effect   = "Allow"     
                     Action   = [
@@ -30,21 +44,15 @@ resource "aws_iam_role" "diamonds_firehose_role" {
                         "s3:PutObject"
                     ],
                     Resource = var.diamonds_firehose_bucket_arn
-                },
-                {
-                    Effect   = "Allow"
-                    Action   = [
-                        "kinesis:DescribeStream",
-                        "kinesis:GetShardIterator",
-                        "kinesis:GetRecords",
-                        "kinesis:ListShards"
-                    ],
-                    Resource = var.diamonds_data_stream_arn
                 }
             ]
         })
     }
 }
+
+# diamonds_lambda_predict_role
+# The IAM execution role for the diamonds-endpoint-predict Lambda function.
+# It allows creating CloudWatch logs and invoking the Sagemaker endpoint.
 
 resource "aws_iam_role" "diamonds_lambda_predict_role" {
     name = "diamonds-lambda-predict-role"
@@ -85,6 +93,10 @@ resource "aws_iam_role" "diamonds_lambda_predict_role" {
         })
     }
 }
+
+# diamonds_lambda_consume_role
+# The IAM execution role for the diamonds-stream-consume Lambda function.
+# It allows creating CloudWatch logs, reading from the Kinesis stream, accessing the API gateway, and writing to the DynamoDB predictions table.
 
 resource "aws_iam_role" "diamonds_lambda_consume_role" {
     name = "diamonds-lambda-consume-role"
@@ -140,12 +152,16 @@ resource "aws_iam_role" "diamonds_lambda_consume_role" {
                         "dynamodb:BatchWriteItem",
                         "dynamodb:PutItem"
                     ]
-                    Resource = var.diamonds_prediction_table_arn
+                    Resource = var.diamonds_predictions_table_arn
                 }
             ]
         })
     }
 }
+
+# diamonds_rest_api_predict_role
+# The IAM execution role for the REST API.
+# It allows invoking the diamonds-endpoint-predict Lambda function.
 
 resource "aws_iam_role" "diamonds_rest_api_predict_role" {
     name = "diamonds-rest-api-role"
@@ -177,6 +193,10 @@ resource "aws_iam_role" "diamonds_rest_api_predict_role" {
         })
     }
 }
+
+# diamonds_data_producer_role
+# The IAM execution role for the data producer instance.
+# It allows reading test data from S3 and writing to the Kinesis stream.
 
 resource "aws_iam_role" "diamonds_data_producer_role" {
     name = "diamonds-data-producer-role"
@@ -216,6 +236,9 @@ resource "aws_iam_role" "diamonds_data_producer_role" {
         })
     }
 }
+
+# diamonds_data_producer_profile
+# The IAM profile for the data producer instance (roles cannot be directly attached to EC2).
 
 resource "aws_iam_instance_profile" "diamonds_data_producer_profile" {
     name = "diamonds-data-producer-profile"

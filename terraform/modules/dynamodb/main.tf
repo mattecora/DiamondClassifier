@@ -1,3 +1,6 @@
+# diamonds_predictions_table
+# The DynamoDB predictions table.
+
 resource "aws_dynamodb_table" "diamonds_predictions_table" {
     name           = "diamonds-predictions"
     billing_mode   = "PROVISIONED"
